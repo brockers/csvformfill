@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<?xml-stylesheet href="chrome://csvformfill/skin/csvformfill.css" type="text/css"?>
 <overlay id="csvformfill-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	<script src="csvformfill.js"/>
 	<toolbox id="navigator-toolbox">
