@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://csvformfill/skin/csvformfill.css" type="text/css"?>
+<overlay id="csvformfill-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<script src="csvformfill.js"/>
+	<toolbox id="navigator-toolbox">
+		<toolbar id="CSVFormFill-Toolbar" toolbarname="CSV Form Filler Toolbar" accesskey="T" class="chromeclass-toolbar" context="toolbar-context-menu" hidden="false" persist="hidden">
+			<toolbarbutton id="CSVFF-OpenCSV-Button" tooltiptext="Select a CSV for your form..." label="Fill Form..." oncommand="CSVFormFill.onContextMenuCommand(event)" />
+			<toolbarbutton id="CSVFF-Previous-Button" tooltiptext="Populate with previous CSV row" label="Prev" oncommand="" disabled="true" />
+			<toolbaritem id="CSVFF-Select-Row">
+				<menulist id="CSVFF-Select-Row-RowList" editable="false" flex="1" minwidth="100" width="100" onkeypress="">
+					<menupopup id="CSVFF-Select-Row-RowList-Menu" />
+				</menulist>
+			</toolbaritem>
+			<toolbarbutton id="CSVFF-Next-Button" tooltiptext="Populate with next CSV row" label="Next" oncommand="" disabled="true" />
+		</toolbar>
+	</toolbox>
+	<popup id="contentAreaContextMenu">
+		<menuitem id="CSVFormFill-context" label="Fill Form..."
+					accesskey="f"
+					insertafter="context-stop"
+					oncommand="CSVFormFill.onContextMenuCommand(event)"/>
+	</popup>
+</overlay>

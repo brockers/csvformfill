@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html><head><title>Stuipdly Simple Form</title></head>
+<body><form method="post" action="?ex=1" id="form1">
+	<label>Name:</label><br/><input type="text" tabindex="1" name="name"/><br/>
+	<label>Email:</label><br/><input type="text" tabindex="2" name="email"/><br/>
+	<label>Security question:</label><br/><input type="text" id="security" tabindex="3" name="security"/><br/>
+	<label>Scope of work:</label><br/><select id="scope" tabindex="6" name="scope">
+		<option value="select">Select</option>
+		<option value="5-10 page site">5-10 page site</option>
+
+		<option value="Blog design">Blog Design</option>
+		<option value="photography website">Photography website</option>
+		<option value="cms">CMS site</option>
+		<option value="e-commerce">E-Commerce site</option>
+		<option value="other">Other</option>
+	</select><br/>
+
+	<label>Budget:</label><br/><select id="budget" tabindex="7" name="budget">
+		<option value="select">Select</option>
+		<option value="$1-2.5k">$1,000-$2,500</option>
+		<option value="$2.5-5k">$2,500-$5,000</option>
+		<option value="$5-10k">$5,000-$10,000</option>
+		<option value="$10-25k">$10,000-$25,000</option>
+
+		<option value="$25k+">$25,000+</option>
+	</select><br/>
+	<label>How did you find this site?</label><br/><select id="source" tabindex="8" name="source">
+		<option value="select">Select</option>
+		<option value="word-of-mouth">Word of Mouth</option>
+		<option value="search-engine">Search Engine</option>
+
+		<option value="gallery">Design Gallery</option>
+		<option value="blog-article">Blog/Online Article</option>
+		<option value="banner">Banner Ad</option>
+		<option value="print">Print Ad</option>
+		<option value="other">Other</option>
+	</select><br/>
+
+	<label>Message:</label><br/><textarea tabindex="4" cols="35" rows="10" name="message"></textarea><br/>
+	<button type="submit"><span> </span></button>
+	</form>
+</body></html>

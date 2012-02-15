@@ -1,0 +1,6 @@
+content csvformfill chrome/content/
+skin    csvformfill classic/1.0 conent/skin/
+overlay  chrome://browser/content/browser.xul    chrome://csvformfill/content/overlay.xul
+style chrome://browser/content/browser.xul chrome://csvformfill/skin/csvformfill.css
+
+locale  csvformfill en-US   file:chrome/locale/en-US/
