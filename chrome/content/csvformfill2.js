@@ -10,8 +10,6 @@ var CSVFormFill = {
 	glMasterArray : [],
 	// Form elements by name so we don't have to do a for loop every time we want them
 	glFormByName : [],
-
-	// TODO: Disable arrow keys when they reach beginning/ending of the file.
 	
 	// Primary function call for opening our csv file
 	onContextMenuCommand : function(event) {
@@ -48,7 +46,6 @@ var CSVFormFill = {
 		}
 	},
 
-	// Enable the buttons after the first CSV is loaded.
 	enableButton : function() {
 		var button1 = document.getElementById("CSVFF-Previous-Button");
 		var button2 = document.getElementById("CSVFF-Next-Button");
@@ -88,8 +85,6 @@ var CSVFormFill = {
 		}
 	},
 
-	// Put all our change button logic in one place.
-	// This may not be the best way but it behaves the way I want.
 	changRowInList : function( direction ){
 
 		// Find out what is currently selected... and grab it.
@@ -118,8 +113,6 @@ var CSVFormFill = {
 		}
 	},
 
-	// Parse our CSV files line by line.
-	// TODO: Update this with a better CSV parser.  Something that will handle quoted text.
 	parseFile : function(file) {
 
 		var line = {};
@@ -170,10 +163,7 @@ var CSVFormFill = {
 
 		istream.close();
 	},
-	
-	// This is where we actually put our CSV row into the form.
-	// Form elements that are not named are ignored as are
-	// CSV elements that are not present in the form.
+
 	fillForm : function(row) {
 		"use strict";
 		var t = 0;
@@ -223,7 +213,6 @@ var CSVFormFill = {
 	},
 
 	// Provide a quick way to view the current csv file as it is seen by the array.
-	// TODO: display a CSV table as seen my the plugin (window.open doesn't currently work)
 	viewFile : function() {
 		"use strict";
 

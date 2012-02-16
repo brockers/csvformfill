@@ -10,3 +10,7 @@
 #CSVFormFill-context {
 	list-style-image: url("chrome://csvformfill/skin/openFolder16.png");
 }
+
+#CSVFF-View-File {
+	list-style-image: url("chrome://csvformfill/skin/tableList16.png");
+}
