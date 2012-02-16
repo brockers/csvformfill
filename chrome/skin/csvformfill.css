@@ -1,7 +1,12 @@
 #CSVFF-Previous-Button {
-	list-style-image: url("chrome://csvformfill/chrome/skin/arrLeft16.png");
+	list-style-image: url("chrome://csvformfill/skin/arrLeft16.png");
 }
 
 #CSVFF-Next-Button {
-	list-style-image: url("chrome://csvformfill/chrome/skin/arrRight16.png");
+	list-style-image: url("chrome://csvformfill/skin/arrRight16.png");
+}
+
+#CSVFF-OpenCSV-Button,
+#CSVFormFill-context {
+	list-style-image: url("chrome://csvformfill/skin/openFolder16.png");
 }

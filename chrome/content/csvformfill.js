@@ -1,20 +1,21 @@
 var CSVFormFill = {
 
 	// Basically a list of names for each row to make it easy in the dropdown menu
-	glFileRows : new Array(),
+	glFileRows : [],
 	// Count of the number of REAL rows in the selected CSV file
 	glRowCount : 0,
 	// Title row (first row) of the CSV.  Used for form selection input
-	glFormElements : new Array(),
+	glFormElements : [],
 	// Our master array holding all the values for our CSV
-	glMasterArray : new Array(),
+	glMasterArray : [],
 	// Form elements by name so we don't have to do a for loop every time we want them
-	glFormByName : new Array(),
+	glFormByName : [],
 	
 	// Primary function call for opening our csv file
 	onContextMenuCommand : function(event) {
+		"use strict";
 		var file = this.chooseFile();
-		if (file == null) {
+		if (file === null) {
 			return;
 		}
 
@@ -23,8 +24,9 @@ var CSVFormFill = {
 		this.enableButton();
 		
 		alert( glRowCount + " total rows imported from CSV" );
-		
-		this.fillForm(0);
+
+		// This is here to autopopulate the first item, but I don't know if I want it.
+		// this.fillForm(0);
 	},
 
 	// File Choosign Dialog
@@ -44,41 +46,31 @@ var CSVFormFill = {
 		}
 	},
 
-// 	disableButton : function() {
-// 		var button1 = document.getElementById("CSVFF-Previous-Button");
-// 		var button2 = document.getElementById("CSVFF-Next-Button");
-// 		var menu1 = document.getElementById("CSVFF-Select-Row-RowList");"
-// 		button1.disabled = true;
-// 		button2.disabled = true;
-// 		menu1.disabled = true;
-// 	},
-// 
 	enableButton : function() {
 		var button1 = document.getElementById("CSVFF-Previous-Button");
 		var button2 = document.getElementById("CSVFF-Next-Button");
-		var button3 = document.getElementById("CSVFF-View-File");
-// 		var menu1 = document.getElementById("CSVFF-Select-Row-RowList");
+		// var button3 = document.getElementById("CSVFF-View-File");
+
 		button1.disabled = false;
 		button2.disabled = false;
-		button3.disabled = false;
-// 		menu1.disabled = false;
+		// button3.disabled = false;
 	},
 
 	// Populate our list of CSV rows so we can select a row to enter
 	populateRowList : function() {
 		// Get the toolbaritem "menu" that we added to our XUL markup
+		var i = 0;
 		var menu = document.getElementById("CSVFF-Select-Row-RowList-Menu");
 		
 		// Remove all of the items currently in the popup menu
-		for(var i=menu.childNodes.length - 1; i >= 0; i--) {
+		for(i=menu.childNodes.length - 1; i >= 0; i--) {
 			menu.removeChild(menu.childNodes.item(i));
 		}
 		
 		// Specify how many items we should add to the menu
-// 		var numItemsToAdd = 10;
 		glRowCount = glFileRows.length;
 		
-		for(var i=0; i<glRowCount; i++) {
+		for(i=0; i<glRowCount; i++) {
 			// Create a new menu item to be added
 			var tempItem = document.createElement("menuitem");
 			var rowValue = glFileRows[i];
@@ -86,15 +78,43 @@ var CSVFormFill = {
 			// Set the new menu item's label
 			tempItem.setAttribute("label", rowValue );
 			tempItem.setAttribute("value", i );
+			tempItem.setAttribute("oncommand", "CSVFormFill.fillForm(" + i +")");
 			
 			// Add the item to our menu
 			menu.appendChild(tempItem);
 		}
 	},
 
+	changRowInList : function( direction ){
+
+		// Find out what is currently selected... and grab it.
+		var menu = document.getElementById("CSVFF-Select-Row-RowList");
+		// Find out what the currently selected number is.
+		var selIndex = menu.selectedIndex;
+
+		if (typeof selIndex === 'number') {
+			// Update our number to the next index
+			(direction === 'up') ? (selIndex++) : (selIndex--);
+			// Now lets make our change.
+			if(selIndex >= glRowCount) {
+				this.fillForm(glRowCount-1);
+				menu.selectedIndex = (glRowCount-1);
+			} else if (selIndex <= 0) {
+				this.fillForm(0);
+				menu.selectedIndex = 0;
+			} else {
+				this.fillForm(selIndex);
+				menu.selectedIndex = selIndex;
+			}
+		} else {
+			// Var was probably undefined. Set to 0
+			this.fillForm(0);
+			menu.selectedIndex = 0;
+		}
+	},
+
 	parseFile : function(file) {
 
-// 		var formValues = {};
 		var line = {};
 		var cnt = 9999;
 		var formElementNumber = 0;
@@ -126,7 +146,7 @@ var CSVFormFill = {
 				for(csvColumnNum=0;csvColumnNum<formElementNumber;csvColumnNum++) {
 					var colName = glFormElements[csvColumnNum];
 					// DEBUG
-// 					alert("Name " + colName + " Column Number " + csvColumnNum + " Number Count " + cnt);
+					// alert("Name " + colName + " Column Number " + csvColumnNum + " Number Count " + cnt);
 					copyArray[csvColumnNum] = tempArray[csvColumnNum];
 				}
 				glMasterArray[cnt] = copyArray;
@@ -138,26 +158,23 @@ var CSVFormFill = {
 				var tmpName = glFormElements[j];
 				glFormByName[tmpName] = j;
 			}
-			
-// 			if (line.value.indexOf('=') != -1) {
-// 					var parts = line.value.split('=');
-// 					formValues[parts[0]] = parts[1];
-// 					//TODO: Maybe strip values?
-// 			}
+			// Next line of CSV
 		} while (hasMore);
 
 		istream.close();
 	},
 
 	fillForm : function(row) {
+		"use strict";
+		var t = 0;
 
 		// Text forms make up the majority.  Fill them out first.
 		var inputs = window.content.document.getElementsByTagName('input');
 		// Process all out text input data.
-		for(var t=0;t<inputs.length;t++) {
+		for(t=0;t<inputs.length;t++) {
 			var name = inputs[t].getAttribute('name');
 			// DEBUG
-// 			alert(name);
+			// alert(name);
 			if (name in glFormByName) {
 				var colNum = glFormByName[name];
 				var type = inputs[t].getAttribute('type');
@@ -170,8 +187,7 @@ var CSVFormFill = {
 		// Select boxes are our next priority.
 		var selects = window.content.document.getElementsByTagName('select');
 		// Process all our select boxes
-// 		for each (var selt in selects) {
-		for(var t=0;t<selects.length;t++) {
+		for(t=0;t<selects.length;t++) {
 			var name = selects[t].getAttribute('name');
 
 			if (name in glFormByName) {
@@ -184,10 +200,10 @@ var CSVFormFill = {
 		// Selects textarea elements and populates thier fields
 		var txtareas = window.content.document.getElementsByTagName('textarea');
 		//Process all our textareas
-		for(var t=0;t<txtareas.length;t++) {
+		for(t=0;t<txtareas.length;t++) {
 			var name = txtareas[t].getAttribute('name');
 			// DEBUG
-			// 			alert(name);
+			// alert(name);
 			if (name in glFormByName) {
 				var colNum = glFormByName[name];
 				txtareas[t].value = glMasterArray[row][colNum];
@@ -198,6 +214,7 @@ var CSVFormFill = {
 
 	// Provide a quick way to view the current csv file as it is seen by the array.
 	viewFile : function() {
+		"use strict";
 
 		var outputTitles = "";
 		for(counter=0; counter<glFormElements.length;counter++) {
