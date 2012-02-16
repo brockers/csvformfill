@@ -11,6 +11,10 @@
 				</menulist>
 			</toolbaritem>
 			<toolbarbutton id="CSVFF-Next-Button" tooltiptext="Populate with next CSV row" label="Next" oncommand="" disabled="true" />
+			<toolbaritem id="CSV-Space-Item">
+				<toolbarseparator />
+			</toolbaritem>
+			<toolbarbutton id="CSVFF-View-File" tooltiptext="View Curent CSV fo;e" label="View CSV..." oncommand="CSVFormFill.viewFile()" disabled="true" />
 		</toolbar>
 	</toolbox>
 	<popup id="contentAreaContextMenu">

@@ -21,13 +21,8 @@ var CSVFormFill = {
 		this.parseFile(file);
 		this.populateRowList();
 		this.enableButton();
-
-		var outputTitles = "";
-		for(counter=0; counter<glFormElements.length;counter++) {
-			outputTitles = outputTitles + " -- " + glFormElements[counter];
-		}
 		
-		alert( glRowCount + " total rows imported from CSV \n" + outputTitles );
+		alert( glRowCount + " total rows imported from CSV" );
 		
 		this.fillForm(0);
 	},
@@ -61,9 +56,11 @@ var CSVFormFill = {
 	enableButton : function() {
 		var button1 = document.getElementById("CSVFF-Previous-Button");
 		var button2 = document.getElementById("CSVFF-Next-Button");
+		var button3 = document.getElementById("CSVFF-View-File");
 // 		var menu1 = document.getElementById("CSVFF-Select-Row-RowList");
 		button1.disabled = false;
 		button2.disabled = false;
+		button3.disabled = false;
 // 		menu1.disabled = false;
 	},
 
@@ -173,16 +170,46 @@ var CSVFormFill = {
 		// Select boxes are our next priority.
 		var selects = window.content.document.getElementsByTagName('select');
 		// Process all our select boxes
-		for each (var selt in selects) {
-			var name = selt.getAttribute('name');
+// 		for each (var selt in selects) {
+		for(var t=0;t<selects.length;t++) {
+			var name = selects[t].getAttribute('name');
 
 			if (name in glFormByName) {
 				var colNum = glFormByName[name];
 				var arrValName = glMasterArray[row][colNum];
-				this.testSelects(selt, arrValName);
+				this.testSelects(selects[t], arrValName);
+			}
+		}
+
+		// Selects textarea elements and populates thier fields
+		var txtareas = window.content.document.getElementsByTagName('textarea');
+		//Process all our textareas
+		for(var t=0;t<txtareas.length;t++) {
+			var name = txtareas[t].getAttribute('name');
+			// DEBUG
+			// 			alert(name);
+			if (name in glFormByName) {
+				var colNum = glFormByName[name];
+				txtareas[t].value = glMasterArray[row][colNum];
 			}
 		}
 		
+	},
+
+	// Provide a quick way to view the current csv file as it is seen by the array.
+	viewFile : function() {
+
+		var outputTitles = "";
+		for(counter=0; counter<glFormElements.length;counter++) {
+			outputTitles += "<td>" + glFormElements[counter] + "</td>";
+		}
+
+		// Display actual document window.
+		var progressWindow = window.open("","","top=10,left=10,height=200,width=500");
+		progressWindow.document.write("<html><head></head><body><div id='progressArea'></div></body></html>");
+
+		var progressArea = progressWindow.document.getElementById("progressArea");
+		progressArea.innerHTML="<tr>"+outputTitles+"</tr>";
 	},
 
 	// Move some of the convoluted selection box option code into it's own fuction... faster too.
