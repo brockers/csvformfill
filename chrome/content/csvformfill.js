@@ -153,19 +153,44 @@ var CSVFormFill = {
 	},
 
 	fillForm : function(row) {
-		var inputs = window.content.document.getElementsByTagName('input');
 
-		for each (var input in inputs) {
-			var name = input.getAttribute('name');
+		// Text forms make up the majority.  Fill them out first.
+		var inputs = window.content.document.getElementsByTagName('input');
+		// Process all out text input data.
+		for(var t=0;t<inputs.length;t++) {
+			var name = inputs[t].getAttribute('name');
+			// DEBUG
+// 			alert(name);
+			if (name in glFormByName) {
+				var colNum = glFormByName[name];
+				var type = inputs[t].getAttribute('type');
+				if (type == 'text') {
+					inputs[t].value = glMasterArray[row][colNum];
+				}
+			}
+		}
+
+		// Select boxes are our next priority.
+		var selects = window.content.document.getElementsByTagName('select');
+		// Process all our select boxes
+		for each (var selt in selects) {
+			var name = selt.getAttribute('name');
 
 			if (name in glFormByName) {
-					var colNum = glFormByName[name];
-					var type = input.getAttribute('type');
-					if (type == 'text') {
-						input.value = glMasterArray[row][colNum];
-					}
-					//TODO: Handle other types than text, e.g. checkbox, radiobutton etc.
+				var colNum = glFormByName[name];
+				var arrValName = glMasterArray[row][colNum];
+				this.testSelects(selt, arrValName);
+			}
+		}
+		
+	},
 
+	// Move some of the convoluted selection box option code into it's own fuction... faster too.
+	testSelects : function(s,v) {
+		for ( var i = 0; i < s.options.length; i++ ) {
+			if ( s.options[i].value == v ) {
+				s.options[i].selected = true;
+				return;
 			}
 		}
 	}
