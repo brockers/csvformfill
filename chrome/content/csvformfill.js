@@ -52,11 +52,11 @@ var CSVFormFill = {
 	enableButton : function() {
 		var button1 = document.getElementById("CSVFF-Previous-Button");
 		var button2 = document.getElementById("CSVFF-Next-Button");
-		// var button3 = document.getElementById("CSVFF-View-File");
+// 		var button3 = document.getElementById("CSVFF-View-File");
 
 		button1.disabled = false;
 		button2.disabled = false;
-		// button3.disabled = false;
+// 		button3.disabled = false;
 	},
 
 	// Populate our list of CSV rows so we can select a row to enter
@@ -118,8 +118,7 @@ var CSVFormFill = {
 		}
 	},
 
-	// Parse our CSV files line by line.
-	// TODO: Update this with a better CSV parser.  Something that will handle quoted text.
+	// Parse our CSV files line by line and pass to our splitter function.
 	parseFile : function(file) {
 
 		var line = {};
@@ -137,12 +136,14 @@ var CSVFormFill = {
 		do {
 			var hasMore = istream.readLine(line);
 			if(cnt == 9999) {
-				glFormElements = line.value.split(/,/g);
+// 				glFormElements = line.value.split(/,/g);
+				glFormElements = line.value.splitCSV();
 				formElementNumber = glFormElements.length;
 				cnt=0;
 			} else {
 				// Get all the values split on a given row
-				var tempArray = line.value.split(/,/g);
+// 				var tempArray = line.value.split(/,/g);
+				var tempArray = line.value.splitCSV();
 				// Set the name for each row (we will still used an ordered array for logic internally)
 				glFileRows.push(tempArray[0]);
 
@@ -228,16 +229,19 @@ var CSVFormFill = {
 		"use strict";
 
 		var outputTitles = "";
+		var counter = 0;
 		for(counter=0; counter<glFormElements.length;counter++) {
 			outputTitles += "<td>" + glFormElements[counter] + "</td>";
 		}
 
 		// Display actual document window.
-		var progressWindow = window.open("","","top=10,left=10,height=200,width=500");
-		progressWindow.document.write("<html><head></head><body><div id='progressArea'></div></body></html>");
+		var progressWindow = window.open("chrome://csvformfill/content/csvlayout.htm","","top=10,left=10,height=200,width=500");
+		var innerDiv = progressWindow.document.getElementById("csvtablearea");
+		innerDiv.innerHTML = "<div>hello world!!</div>";
+		// 		progressWindow.document.write("");
 
-		var progressArea = progressWindow.document.getElementById("progressArea");
-		progressArea.innerHTML="<tr>"+outputTitles+"</tr>";
+// 		var progressArea = progressWindow.document.getElementById("progressArea");
+// 		progressArea.innerHTML="<tr>"+outputTitles+"</tr>";
 	},
 
 	// Move some of the convoluted selection box option code into it's own fuction... faster too.
@@ -249,4 +253,17 @@ var CSVFormFill = {
 			}
 		}
 	}
+};
+
+// Protype of a string function to to CSV splits per line.  
+String.prototype.splitCSV = function(sep) {
+	for (var foo = this.split(sep = sep || ","), x = foo.length - 1, tl; x >= 0; x--) {
+		if (foo[x].replace(/"\s+$/, '"').charAt(foo[x].length - 1) == '"') {
+			if ((tl = foo[x].replace(/^\s+"/, '"')).length > 1 && tl.charAt(0) == '"') {
+				foo[x] = foo[x].replace(/^\s*"|"\s*$/g, '').replace(/""/g, '"');
+			} else if (x) {
+				foo.splice(x - 1, 2, [foo[x - 1], foo[x]].join(sep));
+			} else foo = foo.shift().split(sep).concat(foo);
+		} else foo[x].replace(/""/g, '"');
+	} return foo;
 };
