@@ -19,7 +19,7 @@
 		</em:targetApplication>
 
 		<!-- Optional Items -->
-		<em:creator>Robert Rocker</em:creator>
+		<em:creator>Robert Rockers</em:creator>
 		<em:description>Use a CSV File to batch fill forms, useful for testing web forms.</em:description>
 		<em:homepageURL>http://www.rockerssoft.org/csvformfill</em:homepageURL>
 
