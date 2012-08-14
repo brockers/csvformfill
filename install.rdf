@@ -8,7 +8,7 @@
 		<!-- Required Items -->
 		<em:id>csvformfill@rockerssoft.org</em:id>
 		<em:name>CSV Form Fill</em:name>
-		<em:version>0.9</em:version>
+		<em:version>1.0</em:version>
 
 		<em:targetApplication>
 			<Description>
