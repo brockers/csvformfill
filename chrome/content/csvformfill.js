@@ -190,8 +190,15 @@ var CSVFormFill = {
 				var colNum = glFormByName[name];
 				var type = inputs[t].getAttribute('type');
 				if (type == 'text') {
-					inputs[t].value = glMasterArray[row][colNum];
+					if(inputs[t].value != glMasterArray[row][colNum]) {
+						inputs[t].value = glMasterArray[row][colNum];
+						inputs[t].style.background = '#72A4D2';
+					} else {
+						inputs[t].style.background = '';
+					}
 				}
+			} else {
+				inputs[t].style.background = '#D2A472';
 			}
 		}
 
@@ -204,7 +211,16 @@ var CSVFormFill = {
 			if (name in glFormByName) {
 				var colNum = glFormByName[name];
 				var arrValName = glMasterArray[row][colNum];
-				this.testSelects(selects[t], arrValName);
+				var findMatch = this.testSelects(selects[t], arrValName);
+				if(findMatch == 1){
+					selects[t].style.background = '#72A4D2';
+				} else if(findMatch == 2) {
+					selects[t].style.background = '';
+				} else {
+					selects[t].style.background = '#FF7654';
+				}
+			} else {
+				selects[t].style.background = '#D2A472';
 			}
 		}
 
@@ -217,7 +233,14 @@ var CSVFormFill = {
 			// alert(name);
 			if (name in glFormByName) {
 				var colNum = glFormByName[name];
-				txtareas[t].value = glMasterArray[row][colNum];
+				if(txtareas[t].value != glMasterArray[row][colNum]) {
+					txtareas[t].value = glMasterArray[row][colNum];
+					txtareas[t].style.background = '#72A4D2';
+				} else{
+					txtareas[t].style.background = '';
+				}
+			} else {
+				txtareas[t].style.background = '#D2A472';
 			}
 		}
 		
@@ -249,9 +272,11 @@ var CSVFormFill = {
 		for ( var i = 0; i < s.options.length; i++ ) {
 			if ( s.options[i].value == v ) {
 				s.options[i].selected = true;
-				return;
+				return 1;
 			}
 		}
+		// Entire list was searched with no current value
+		return 3;
 	}
 };
 
