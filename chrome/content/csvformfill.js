@@ -269,10 +269,25 @@ var CSVFormFill = {
 
 	// Move some of the convoluted selection box option code into it's own fuction... faster too.
 	testSelects : function(s,v) {
+		// DEBUG
+// 		alert("option value is --" + v + "--");
 		for ( var i = 0; i < s.options.length; i++ ) {
+			// DEBUG
+// 			alert("Loop next value is --" + s.options[i].value + "-- and the text is --" + s.options[i].text.toUpperCase() + "--");
 			if ( s.options[i].value == v ) {
-				s.options[i].selected = true;
-				return 1;
+				if(s.selectedIndex == i) {
+					return 2;
+				} else {
+					s.options[i].selected = true;
+					return 1;
+				}
+			} else if(s.options[i].text.toUpperCase() == v.toUpperCase()) {
+				if(s.selectedIndex == i) {
+					return 2;
+				} else {
+					s.options[i].selected = true;
+					return 1;
+				}
 			}
 		}
 		// Entire list was searched with no current value
