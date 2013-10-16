@@ -1,0 +1,12 @@
+CSV Form Fill
+
+==Overview==
+A simple firefox module for importing batches of data via form submission using a pre-formatted csv (comma separated value) file.  Check out the testsuite for examples.  
+
+==How To Use==
+* Create the csvformfill.xpi file.  If you are using Linux you can simply run ''zip -r csvformfill.xpi *''
+* Install csvformfill.xpi in firefox.
+* Create a csv file in LibreOffice or Excel.  
+* The first row should match the input form elements ids or names.  All remaining rows will be treated as content to be "pasted" into the form when selected.
+
+
