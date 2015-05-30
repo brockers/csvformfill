@@ -23,4 +23,6 @@ and then start firefox in your new profile.  The toolbar should be there.
 * Create a csv file in LibreOffice or Excel.  
 * The first row should match the input form elements ids or names.  All remaining rows will be treated as content to be "pasted" into the form when selected.
 
+## Reference
 
+* [http://www.borngeek.com/firefox/toolbar-tutorial/](Firefox Toolbar Plugin Tutorial, by BornGeek)
