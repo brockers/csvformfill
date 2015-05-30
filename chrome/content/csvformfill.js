@@ -171,6 +171,42 @@ var CSVFormFill = {
 
 		istream.close();
 	},
+
+	changeInput : function(name, input, row) {
+		var colNum = glFormByName[name];
+		var type = input.getAttribute('type');
+		if (type == 'text') {
+			if(inputs.value != glMasterArray[row][colNum]) {
+				inputs.value = glMasterArray[row][colNum];
+				inputs.style.background = '#72A4D2';
+			} else {
+				inputs.style.background = '';
+			}
+		}
+	},
+
+	changeSelect : function(name, select, row){
+		var colNum = glFormByName[name];
+		var arrValName = glMasterArray[row][colNum];
+		var findMatch = this.testSelects(select, arrValName);
+		if(findMatch == 1){
+			select.style.background = '#72A4D2';
+		} else if(findMatch == 2) {
+			select.style.background = '';
+		} else {
+			select.style.background = '#FF7654';
+		}
+	},
+
+	changeTxtArea : function(name textarea, row){
+		var colNum = glFormByName[name];
+		if(txtarea.value != glMasterArray[row][colNum]) {
+			txtarea.value = glMasterArray[row][colNum];
+			txtarea.style.background = '#72A4D2';
+		} else{
+			txtarea.style.background = '';
+		}
+	},
 	
 	// This is where we actually put our CSV row into the form.
 	// Form elements that are not named are ignored as are
@@ -183,22 +219,20 @@ var CSVFormFill = {
 		var inputs = window.content.document.getElementsByTagName('input');
 		// Process all out text input data.
 		for(t=0;t<inputs.length;t++) {
-			var name = inputs[t].getAttribute('name');
+			// Default to looking for the id, as it is guarenteed unique
+			var mId = inputs[t].getAttribute('id');
 			// DEBUG
 			// alert(name);
-			if (name in glFormByName) {
-				var colNum = glFormByName[name];
-				var type = inputs[t].getAttribute('type');
-				if (type == 'text') {
-					if(inputs[t].value != glMasterArray[row][colNum]) {
-						inputs[t].value = glMasterArray[row][colNum];
-						inputs[t].style.background = '#72A4D2';
-					} else {
-						inputs[t].style.background = '';
-					}
-				}
+			if (mId in glFormByName) {
+				this.changeInput(mId, inputs[t], row);
 			} else {
-				inputs[t].style.background = '#D2A472';
+				// Cannot find id, check for a name
+				var mName = inputs[t].getAttribute('name');
+				if (mName in glFormByName){
+					this.changeInput(mName, inputs[t], row);	
+				} else {
+					inputs[t].style.background = '#D2A472';
+				}
 			}
 		}
 
@@ -206,21 +240,19 @@ var CSVFormFill = {
 		var selects = window.content.document.getElementsByTagName('select');
 		// Process all our select boxes
 		for(t=0;t<selects.length;t++) {
-			var name = selects[t].getAttribute('name');
+			// Default look for id
+			var mId = selects[t].getAttribute('id');
 
-			if (name in glFormByName) {
-				var colNum = glFormByName[name];
-				var arrValName = glMasterArray[row][colNum];
-				var findMatch = this.testSelects(selects[t], arrValName);
-				if(findMatch == 1){
-					selects[t].style.background = '#72A4D2';
-				} else if(findMatch == 2) {
-					selects[t].style.background = '';
-				} else {
-					selects[t].style.background = '#FF7654';
-				}
+			if (mId in glFormByName) {
+				this.changeSelect(mId, selects[t], row);
 			} else {
-				selects[t].style.background = '#D2A472';
+				// Cannot find id, see if we have a matching name
+				var mName = selects[t].getAttribute('name');
+				if (mName in glFormByName) {
+					this.changeSelect(mName, selects[t], row);	
+				} else {
+					selects[t].style.background = '#D2A472';
+				}
 			}
 		}
 
@@ -228,22 +260,21 @@ var CSVFormFill = {
 		var txtareas = window.content.document.getElementsByTagName('textarea');
 		//Process all our textareas
 		for(t=0;t<txtareas.length;t++) {
-			var name = txtareas[t].getAttribute('name');
+			var mId = txtareas[t].getAttribute('id');
 			// DEBUG
 			// alert(name);
-			if (name in glFormByName) {
-				var colNum = glFormByName[name];
-				if(txtareas[t].value != glMasterArray[row][colNum]) {
-					txtareas[t].value = glMasterArray[row][colNum];
-					txtareas[t].style.background = '#72A4D2';
-				} else{
-					txtareas[t].style.background = '';
-				}
+			if (mId in glFormByName) {
+				this.changeTxtArea(mId, txtareas[t], row);
 			} else {
-				txtareas[t].style.background = '#D2A472';
+				if (mName in glFormByName){
+					// No id see if we have a name that matches
+					var mName = txtareas[t].getAttribute('name');
+					this.changeTxtArea(mName, textareas[t], row);
+				} else {
+					txtareas[t].style.background = '#D2A472';
+				}
 			}
 		}
-		
 	},
 
 	// Provide a quick way to view the current csv file as it is seen by the array.
