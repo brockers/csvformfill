@@ -176,11 +176,11 @@ var CSVFormFill = {
 		var colNum = glFormByName[name];
 		var type = input.getAttribute('type');
 		if (type == 'text') {
-			if(inputs.value != glMasterArray[row][colNum]) {
-				inputs.value = glMasterArray[row][colNum];
-				inputs.style.background = '#72A4D2';
+			if(input.value != glMasterArray[row][colNum]) {
+				input.value = glMasterArray[row][colNum];
+				input.style.background = '#72A4D2';
 			} else {
-				inputs.style.background = '';
+				input.style.background = '';
 			}
 		}
 	},
@@ -198,7 +198,7 @@ var CSVFormFill = {
 		}
 	},
 
-	changeTxtArea : function(name textarea, row){
+	changeTxtArea : function(name, txtarea, row){
 		var colNum = glFormByName[name];
 		if(txtarea.value != glMasterArray[row][colNum]) {
 			txtarea.value = glMasterArray[row][colNum];
