@@ -10,7 +10,7 @@
 			</toolbaritem>
 			<toolbarbutton id="CSVFF-Previous-Button" tooltiptext="Populate with previous CSV row" label="Prev" oncommand="CSVFormFill.changRowInList('down')" disabled="true" />
 			<toolbaritem id="CSVFF-Select-Row">
-				<menulist id="CSVFF-Select-Row-RowList" editable="false" flex="1" minwidth="100" width="100" onkeypress="">
+				<menulist id="CSVFF-Select-Row-RowList" editable="false" flex="1" minwidth="200" width="200" onkeypress="">
 					<menupopup id="CSVFF-Select-Row-RowList-Menu" />
 				</menulist>
 			</toolbaritem>
